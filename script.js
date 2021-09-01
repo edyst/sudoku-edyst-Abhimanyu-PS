@@ -12,21 +12,24 @@ const hard = [
   "712583694639714258845269173521436987367928415498175326184697532253841769976352841"
 ];
 
-// function triggering on window loading 
+// (Function triggering on window loading) 
 
 window.onload = function () {
   alert("Welcome to Abhimanyu's Sudoku");
-  id("thats-easy").addEventListener("click", starteasy);
-  id("thats-okay").addEventListener("click", startokay);
-  id("oops-hard").addEventListener("click", starthard);
+  id("thats-easy").addEventListener("click", starteasy);    // Difficulty : Easy
+  id("thats-okay").addEventListener("click", startokay);    // Difficulty : Medium
+  id("oops-hard").addEventListener("click", starthard);     // Difficulty : Hard
 }
-var currentId;
+
+// (Declared Global Variables)
+var currentId; // (using for current Id)
+var g;
 
 //  onclick function contains event that will occur the moment you click on any cell
 const onClick = function () {
   let y = this.id;
   currentId = y;
-  console.log(y) // (consoling id of particular cell selected)
+  console.log(y) // (consoling id of particular cell Selected {no use} )
 
   clearSelection(); //(Clearing Css property of any other selected cell)
 
@@ -61,28 +64,19 @@ const onClick = function () {
   }
 }
 
+
 // (loop for bypassing individual cell id which is being clicked on)
 for (let l = 1; l <= 81; l++) {
   id(l).onclick = onClick;
 }
 
-// (logic for clearing css property of selected cell)
-function clearSelection() {
-  for (let j = 1; j <= 81; j++) {
-    id(j).classList.remove("highlight", "active", "deaf-blue", "allNo");
-  }
-}
 
-// (removing wrong class) 
-function clearWrong() {
-  for (let j = 1; j <= 81; j++) {
-    id(j).classList.remove("wrong");
-  }
-}
+/********************/
+// (Difficulty Level)
+/********************/
 
 // (calling easy Sudoku)
 function starteasy() {
-
   clearprev();
   let board = easy[0];
   start(board);
@@ -102,17 +96,8 @@ function starthard() {
   start(board);
 }
 
-// (clearing previous board)
-function clearprev() {
-  for (let j = 1; j <= 81; j++) {
-    id(j).removeAttribute("readonly");
-    id(j).classList.remove("deaf", "highlight", "wrong", "allNo");
-    id(j).value = "";
-  }
-}
 
-// (filling Sudoku grid)
-let g;
+// (Filling Sudoku Grid with hard coded prefilled numbers)
 function start(board) {
   if (board == easy[0]) {
     g = easy[1];
@@ -139,8 +124,9 @@ function start(board) {
     }
   }
 }
-//  (checking for double filled no)
 
+
+//  (Checking for double Filled no)
 function checkDouble() {
   clearallNo();
   clearWrong();
@@ -150,7 +136,8 @@ function checkDouble() {
   checkforSame();
 }
 
-// (limiting input from 1 to 9)
+
+// (Limiting keyboard input from 1 to 9)
 function isNumber(e) {
   var key = e.which || e.KeyCode;
   if (key > 48 && key <= 57) {
@@ -159,7 +146,13 @@ function isNumber(e) {
   else return false;
 }
 
+
 // (Validate Function)
+/*
+    1. By using Sum of Rows.
+    2. By using Sum of Columns.
+    3. By using Sum of 3x3 Grid.
+*/
 id("validate").addEventListener("click", validation);
 function validation() {
   let count = 0;
@@ -176,7 +169,8 @@ function validation() {
   else alert("Something Wrong!! Try Again")
 }
 
-// (helper functions)
+
+// (Helper Functions or Shortcut Functions)
 function id(id) {
   return document.getElementById(id);
 }
@@ -187,7 +181,8 @@ function qsa(selector) {
   return document.querySelectorAll(selector);
 }
 
-// (other functions)
+
+// (changing CSS property of selected element's 3x3 Grid )
 function threebythree(y) {
   for (let i = 1; i <= 81; i++) {
     let d = y % 9;
@@ -234,6 +229,7 @@ function threebythree(y) {
   }
 }
 
+// ( Function for checking if there are any double in any row)
 function checkRow() {
   for (let x = 1; x <= 81; x++) {
     for (let z = 1; z <= 81; z++) {
@@ -247,6 +243,7 @@ function checkRow() {
   }
 }
 
+// (Function for checking if there are any double in any Column)
 function checkColumn() {
   for (let x = 1; x <= 81; x++) {
     for (let z = 1; z <= 81; z++) {
@@ -263,6 +260,7 @@ function checkColumn() {
   }
 }
 
+// (Function for checking if there are any double in any 3x3 Grid)
 function checkthreeBythree() {
   for (let x = 1; x <= 81; x++) {
     let y = x % 9;
@@ -327,6 +325,7 @@ function checkthreeBythree() {
   }
 }
 
+//  (Function for Highlighting cells with same value throughout sudoku)
 function checkforSame() {
   for (let x = 1; x <= 81; x++) {
     if (x != currentId && (id(x).value == id(currentId).value) && (id(currentId).value != "")) {
@@ -336,8 +335,36 @@ function checkforSame() {
   }
 }
 
+/************************************/
+// (Clearing CSS Property Functions) 
+/***********************************/
+
+// (Clearing css of id with same value) 
 function clearallNo() {
   for (x = 1; x <= 81; x++) {
     id(x).classList.remove("allNo");
+  }
+}
+
+// (clearing previous board)
+function clearprev() {
+  for (let j = 1; j <= 81; j++) {
+    id(j).removeAttribute("readonly");
+    id(j).classList.remove("deaf", "highlight", "wrong", "allNo");
+    id(j).value = "";
+  }
+}
+
+// (logic for clearing css property of selected cell)
+function clearSelection() {
+  for (let j = 1; j <= 81; j++) {
+    id(j).classList.remove("highlight", "active", "deaf-blue", "allNo");
+  }
+}
+
+// (removing wrong class) 
+function clearWrong() {
+  for (let j = 1; j <= 81; j++) {
+    id(j).classList.remove("wrong");
   }
 }
