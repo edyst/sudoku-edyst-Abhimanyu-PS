@@ -20,18 +20,17 @@ window.onload = function () {
   id("thats-okay").addEventListener("click", startokay);
   id("oops-hard").addEventListener("click", starthard);
 }
-var isValid = 1;
+var currentId;
 
 //  onclick function contains event that will occur the moment you click on any cell
 const onClick = function () {
   let y = this.id;
+  currentId = y;
   console.log(y) // (consoling id of particular cell selected)
 
   clearSelection(); //(Clearing Css property of any other selected cell)
 
   id(y).classList.add("active"); //(Adding class active to active selected cell which is being clicked)
-
-
 
   // (logic of selecting rows and columns of the celected cell)
   for (let q = 0; q < 81;) {
@@ -70,7 +69,7 @@ for (let l = 1; l <= 81; l++) {
 // (logic for clearing css property of selected cell)
 function clearSelection() {
   for (let j = 1; j <= 81; j++) {
-    id(j).classList.remove("highlight", "active", "deaf-blue");
+    id(j).classList.remove("highlight", "active", "deaf-blue", "allNo");
   }
 }
 
@@ -107,7 +106,7 @@ function starthard() {
 function clearprev() {
   for (let j = 1; j <= 81; j++) {
     id(j).removeAttribute("readonly");
-    id(j).classList.remove("deaf", "highlight", "wrong");
+    id(j).classList.remove("deaf", "highlight", "wrong", "allNo");
     id(j).value = "";
   }
 }
@@ -140,12 +139,15 @@ function start(board) {
     }
   }
 }
-
 //  (checking for double filled no)
+
 function checkDouble() {
+  clearallNo();
   clearWrong();
   checkRow();
   checkColumn();
+  checkthreeBythree();
+  checkforSame();
 }
 
 // (limiting input from 1 to 9)
@@ -160,14 +162,14 @@ function isNumber(e) {
 // (Validate Function)
 id("validate").addEventListener("click", validation);
 function validation() {
-  let count=0;
-  for (x=0; x<81;x++){
-    let y= x+1;
-    if(g.charAt(x) == id(y).value){
+  let count = 0;
+  for (x = 0; x < 81; x++) {
+    let y = x + 1;
+    if (g.charAt(x) == id(y).value) {
       count++;
     }
   }
-  if(count==81){
+  if (count == 81) {
     alert("Yeah!! Success");
     clearprev();
   }
@@ -234,11 +236,11 @@ function threebythree(y) {
 
 function checkRow() {
   for (let x = 1; x <= 81; x++) {
-    for (let y = 1; y <= 81; y++) {
-      if ((x % 9 == y % 9) && x != y) {
-        if (id(x).value == id(y).value) {
+    for (let z = 1; z <= 81; z++) {
+      if ((x % 9 == z % 9) && x != z) {
+        if (id(x).value == id(z).value) {
           id(x).classList.add("wrong");
-          id(y).classList.add("wrong");
+          id(z).classList.add("wrong");
         }
       }
     }
@@ -247,16 +249,95 @@ function checkRow() {
 
 function checkColumn() {
   for (let x = 1; x <= 81; x++) {
-    for (let y = 1; y <= 81; y++) {
+    for (let z = 1; z <= 81; z++) {
       for (let i = 0; i < 9; i++) {
         let j = i + 1;
-        if (x / 9 <= j && y / 9 <= j && x / 9 > i && y / 9 > i && x != y) {
-          if (id(x).value == id(y).value) {
+        if (x / 9 <= j && z / 9 <= j && x / 9 > i && z / 9 > i && x != z) {
+          if (id(x).value == id(z).value) {
             id(x).classList.add("wrong");
-            id(y).classList.add("wrong");
+            id(z).classList.add("wrong");
           }
         }
       }
     }
+  }
+}
+
+function checkthreeBythree() {
+  for (let x = 1; x <= 81; x++) {
+    let y = x % 9;
+    let z = x / 9;
+    let i = currentId % 9;
+    let j = currentId / 9;
+    if ((id(x).value == id(currentId).value) && x != currentId) {
+      if ((y == 1 || y == 2 || y == 3) && (i == 1 || i == 2 || i == 3)) {
+        if (z > 0 && z <= 3 && j > 0 && j <= 3) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+        if (z > 3 && z <= 6 && j > 3 && j <= 6) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+        if (z > 6 && z <= 9 && j > 6 && j <= 9) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+      }
+
+      if ((y == 4 || y == 5 || y == 6) && (i == 4 || i == 5 || i == 6)) {
+        if (z > 0 && z <= 3 && j > 0 && j <= 3) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+        if (z > 3 && z <= 6 && j > 3 && j <= 6) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+        if (z > 6 && z <= 9 && j > 6 && j <= 9) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+      }
+
+      if ((y == 7 || y == 8 || y == 0) && (i == 7 || i == 8 || i == 0)) {
+        if (z > 0 && z <= 3 && j > 0 && j <= 3) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+        if (z > 3 && z <= 6 && j > 3 && j <= 6) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+        if (z > 6 && z <= 9 && j > 6 && j <= 9) {
+          id(x).classList.add("wrong");
+          id(currentId).classList.add("wrong");
+
+        }
+      }
+    }
+  }
+}
+
+function checkforSame() {
+  for (let x = 1; x <= 81; x++) {
+    if (x != currentId && (id(x).value == id(currentId).value) && (id(currentId).value != "")) {
+      id(x).classList.add("allNo");
+      id(currentId).classList.add("allNo");
+    }
+  }
+}
+
+function clearallNo() {
+  for (x = 1; x <= 81; x++) {
+    id(x).classList.remove("allNo");
   }
 }
