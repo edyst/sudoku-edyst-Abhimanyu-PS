@@ -111,3 +111,29 @@ body{
 .allNo{
     box-shadow: 0 0 10px 0 blue inset;
 }
+
+/* Media query for smartphone */
+
+@media only screen and (max-width: 400px) {
+    *{
+        font-size: 12px;
+    }
+    .heading{
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+    .hardness{
+        flex-direction: column;
+    }
+    .btn{
+        max-width: 100px;
+        margin-bottom: 20px;
+    }
+    .validate-button{
+        max-width: 200px;
+    }
+    .cell{
+        height:20px;
+        width: 20px;    
+    }
+}
